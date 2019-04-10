@@ -1,0 +1,23 @@
+page-login {
+
+    .img{
+        margin: 0 35%;
+        // display: none
+    }
+
+    .default{
+        // display: none;
+        
+        // border:2px rgb(180, 8, 8) solid;
+        border:2px rgb(202, 202, 202) solid; 
+        border-radius: 4%; 
+        background-color: rgb(226, 226, 226);
+    }
+
+    .success{
+        background: rgb(104, 248, 152);
+        border:2px rgb(0, 148, 12) solid; 
+        border-radius: 4%; 
+    }
+
+}

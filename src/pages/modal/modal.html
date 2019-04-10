@@ -1,0 +1,87 @@
+<!--
+  Generated template for the ModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-toolbar no-border>
+    <!-- <ion-title>modal</ion-title> -->
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="assets/imgs/{{this.dados?.imagem}}" onError="this.src='assets/imgs/doador.png';" />
+      </ion-avatar>
+    </ion-item>
+    <ion-buttons end>
+      <button ion-fab mini  clear (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <!-- <ion-avatar>
+        <img src="">
+  </ion-avatar>
+  <p>{{ this.dados?.cpf}}</p> -->
+  <div class="infor">
+    <!-- <img src="assets/imgs/{{this.dados.imagem}}" onError="this.src='assets/imgs/doador.png';" class="center"  />
+<ion-item>
+  <ion-title padding>
+    {{this.dados?.nome}}
+  </ion-title>
+  <ion-icon ios="ios-star" md="md-star"></ion-icon>
+</ion-item>
+
+  <p padding>
+    The most popular industrial group ever, and largely
+    responsible for bringing the music to a mass audience.
+  </p> -->
+
+
+    <ion-list>
+      <img src="assets/imgs/{{this.dados.imagem}}" onError="this.src='assets/imgs/doador.png';" class="center" />
+      <ion-item>
+        <h2>{{this.dados?.nome}}</h2>
+        <ion-icon name="star" color="yellow"></ion-icon>
+        <ion-icon name="star" color="yellow"></ion-icon>
+        <ion-icon name="star" color="yellow"></ion-icon>
+        <ion-icon name="star" color="yellow"></ion-icon>
+        <ion-icon name="star" color="yellow"></ion-icon>
+        <h3><b>{{this.dados?.endereco.logradouro}}, {{this.dados?.endereco.numero}}</b></h3>
+        <p><b>{{this.dados?.endereco.bairro.nome}},
+            {{this.dados?.endereco.estado.nome}}/{{this.dados?.endereco.estado.uf}}</b></p>
+        <p>Tel: <b>{{this.dados?.telefone}}</b></p>
+        <p>Comp: <b>{{this.dados?.endereco.complemento}}</b></p>
+
+        <button ion-button end color="secondary" round (click)="abrirMapaExterno(this.dados)">
+            <ion-icon ios="ios-navigate" md="md-navigate"></ion-icon> &nbsp;
+            Ir até local
+        </button>
+
+        <button ion-button end round color="primary" [hidden]="this.dadosUsuario?.tipoPessoaId == 2"  (click)="selecionarItensDoacao(this.dados)">
+            <ion-icon ios="ios-navigate" md="md-navigate"></ion-icon> &nbsp;
+            Doar Itens
+        </button>
+        
+      </ion-item>
+    </ion-list>
+
+    <ion-list >
+        <p padding>Minhas doações  Realizadas </p>
+        <ion-item *ngFor="let item of listaDoacoes">
+          <ion-thumbnail item-start>
+            <img src="http://192.168.0.103:45455/upload/{{ item.pessoa.imagem }}">
+          </ion-thumbnail>
+          <h2>{{item.pessoa.nome}}</h2>
+          <p>Produtos:  {{ item.produto.length}}</p>
+          <p>Data:  {{ item.data }}</p>
+          <button ion-button clear item-end>View</button>
+        </ion-item>
+    </ion-list>
+
+  </div>
+</ion-content>

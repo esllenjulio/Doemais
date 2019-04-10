@@ -1,0 +1,7 @@
+{
+  "name": "doeMais",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

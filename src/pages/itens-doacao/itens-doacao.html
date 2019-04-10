@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Itens
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-label padding> Lista de itens para doação</ion-label>
+  <ion-list>
+    <ion-item *ngFor="let item of this.itens">
+      <ion-checkbox color="dark" checked="true"></ion-checkbox>
+      <ion-avatar item-start>
+        <img src="assets/imgs/doador.png">
+      </ion-avatar>
+      <ion-label>{{item.nome}}</ion-label>
+      <button ion-fab  mini item-end>
+          <ion-icon ios="ios-create" md="md-create"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab right bottom style="bottom:5%;" center>
+    <button ion-fab mini color="primary" (click)="AddItem()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <ion-footer>
+    <ion-toolbar>
+      <!-- <p>Voltar</p> -->
+      <ion-buttons end>
+        <button ion-button icon-end color="royal" (click)="criarDoacao()" [hidden]="this.dados==null">
+          Send
+          <ion-icon name="send"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>

@@ -1,0 +1,29 @@
+<ion-header no-border>
+  <ion-toolbar class="toolbar">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  
+   
+  <!-- <button ion-button (click)="buscarDoadores()">Buscar Doadores</button>
+  <button ion-button (click)="buscarReceptores()">Buscar Receptores</button> -->
+  
+<!-- 
+  <ul *ngFor="let item of pessoas">
+    <li>{{item.nome}}</li>
+  </ul>
+  <div id="map" style="width:100%; height:100%;"></div> -->
+
+  <ion-tabs>
+    <ion-tab [show]="showTabColetor" tabTitle="Coletores" tabIcon="compass" [root]="tabColetor" tabBadge="14" tabBadgeStyle="danger"></ion-tab>
+    <ion-tab [show]="showTabDoador" tabTitle="Doadores" tabIcon="contact" [root]="tabDoador" tabBadge="3" tabBadgeStyle="danger" ></ion-tab>
+    <ion-tab tabIcon="analytics" [root]="tabLogin" tabBadgeStyle="danger"></ion-tab>
+    <ion-tab tabIcon="settings" [root]="tabLogin"  tabBadgeStyle="danger"></ion-tab>
+    <!-- <ion-tab tabIcon="musical-notes" [root]="tabThree"></ion-tab> -->
+  </ion-tabs>
+
+</ion-content>

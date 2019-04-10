@@ -1,0 +1,187 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header >
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content >
+  <ion-toolbar no-border-top >
+    <ion-segment [(ngModel)]="login">
+      <ion-segment-button value="entrar">
+        Entrar
+      </ion-segment-button>
+      <ion-segment-button value="cadastrar">
+        Cadastrar
+      </ion-segment-button>
+
+    </ion-segment>
+  </ion-toolbar>
+
+  <div [ngSwitch]="login">
+    <ion-list *ngSwitchCase="'entrar'" padding>
+      <form [formGroup]="PessoaLogin" (ngSubmit)="Entrar()">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-12 center>
+              <img padding class="img animated tada" src="assets/imgs/doador.png" width="100" height="100">
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <br><br>
+        <ion-item>
+          <ion-label stacked>Email</ion-label>
+          <ion-input formControlName="email" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Senha</ion-label>
+          <ion-input formControlName="senha" type="password"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <br>
+          <ion-grid>
+            <ion-row>
+              <ion-col col-6>
+                <!-- <a href="#"> <p>  Esqueci minha senha</p></a> -->
+              </ion-col>
+              <ion-col col-6>
+                <button ion-button round [disabled]="PessoaLogin.invalid"> Entrar</button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </form>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'cadastrar'">
+      <ion-grid>
+        <ion-row padding>
+          <ion-col col-5 [ngClass]="{'default': this.tipoPessoaId != '1', 'success': this.tipoPessoaId == '1'}">
+            <label for=""> Doador</label>
+            <img class="img" width="80" height="80" [ngClass]="{'animated flip': this.tipoPessoaId == '1'}"
+              src="assets/imgs/doador.png" (click)="selecionarTipoPessoa(1)">
+          </ion-col>
+
+          <ion-col col-1></ion-col>
+
+          <ion-col col-5 [ngClass]="{'default': this.tipoPessoaId != '2', 'success': this.tipoPessoaId == '2'}">
+            <label for=""> Coletor</label>
+            <img class="img " width="80" height="80" [ngClass]="{'animated flip': this.tipoPessoaId == '2'}"
+              src="assets/imgs/coletor.png" (click)="selecionarTipoPessoa(2)">
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+
+      <form [formGroup]="PessoaFisica" (ngSubmit)="cadastrarPessoa('fisica')" *ngIf="this.tipoPessoaId == '1'"
+        class="animated lightSpeedIn" novalidate>
+        <ion-grid padding>
+          <ion-item>
+            <ion-label stacked>Nome</ion-label>
+            <ion-input formControlName="nome" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked>CPF</ion-label>
+            <ion-input formControlName="cpf" type="number"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked>Telefone</ion-label>
+            <ion-input formControlName="telefone" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked>Email</ion-label>
+            <ion-input formControlName="email" type="email" requered></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked>Senha</ion-label>
+            <ion-input formControlName="senha" type="password"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked>Confirmar Senha</ion-label>
+            <ion-input formControlName="repeatSenha" type="password"></ion-input>
+          </ion-item>
+        </ion-grid>
+
+        <ion-item *ngIf="this.tipoPessoaId == '1'">
+          <br>
+          <ion-grid>
+            <ion-row>
+              <ion-col col-6>
+                <!-- <a href="#"> <p>  Esqueci minha senha</p></a> -->
+              </ion-col>
+              <ion-col col-6>
+                <button ion-button round [disabled]="PessoaFisica.invalid"> Criar</button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </form>
+
+      <form [formGroup]="PessoaJuridica" (ngSubmit)="cadastrarPessoa('juridica')" *ngIf="this.tipoPessoaId == '2'"
+        class="animated lightSpeedIn" novalidate>
+        <ion-grid padding>
+          <ion-item>
+            <ion-label stacked>Razão social</ion-label>
+            <ion-input formControlName="nome" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked>CNPJ</ion-label>
+            <ion-input formControlName="cnpj" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked>Telefone</ion-label>
+            <ion-input formControlName="telefone" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked>Email</ion-label>
+            <ion-input formControlName="email" type="email" requered></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked>Senha</ion-label>
+            <ion-input formControlName="senha" type="password"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked>Confirmar Senha</ion-label>
+            <ion-input formControlName="repeatSenha" type="password"></ion-input>
+          </ion-item>
+        </ion-grid>
+
+        <ion-item *ngIf="this.tipoPessoaId == '2'">
+          <br>
+          <ion-grid>
+            <ion-row>
+              <ion-col col-6>
+                <!-- <a href="#"> <p>  Esqueci minha senha</p></a> -->
+              </ion-col>
+              <ion-col col-6>
+                <button ion-button round [disabled]="PessoaJuridica.invalid"> Criar</button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </form>
+    </ion-list>
+
+
+  </div>
+</ion-content>

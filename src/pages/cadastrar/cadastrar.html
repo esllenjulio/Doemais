@@ -1,0 +1,257 @@
+<!--
+  Generated template for the CadastrarPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <!-- <ion-tabs>
+    <ion-tab tabIcon="contact" tabTitle="Dados" [root]="tab1"></ion-tab>
+    <ion-tab tabIcon="compass" tabTitle="Local" [root]="tab2"></ion-tab>
+  </ion-tabs>
+   -->
+  <ion-slides #slides pager>
+
+    <ion-slide>
+      <h2>Selecione o tipo que pretende ser!</h2>
+
+
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <img class="img" [ngClass]="{'animated tada': this.DesctipoPessoa == 'Doador'}" src="assets/imgs/doador.png"
+              (click)="selecionarTipoPessoa(1)">
+            <label for=""> Doador</label>
+          </ion-col>
+          <ion-col col-6>
+            <img class="img " [ngClass]="{'animated tada': this.DesctipoPessoa == 'Coletor'}"
+              src="assets/imgs/coletor.png" (click)="selecionarTipoPessoa(2)">
+            <label for=""> Coletor</label>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+
+      <br>
+      <label [hidden]="this.DesctipoPessoa == ''">Parabéns! Você será um {{this.DesctipoPessoa}} </label>
+      <br>
+      <div padding [hidden]="this.DesctipoPessoa == ''">
+        <button ion-button round (click)="proximoSlider()">Proximo</button>
+      </div>
+
+
+    </ion-slide>
+
+
+
+
+    <ion-slide>
+      <h2>Dados Pessoais</h2>
+      <br>
+      <!-- <form [formGroup]="userForm" (ngSubmit)="cadastrarPessoa()">
+        <ion-list>
+          <ion-item>
+            <ion-label floating>Nome completo</ion-label>
+            <ion-input formControlName="Nome" type="text"></ion-input>
+          </ion-item>
+          <ion-item [hidden]="this.tipoPessoa != 1">
+            <ion-label floating>CPF</ion-label>
+            <ion-input formControlName="Cpf" type="text"></ion-input>
+          </ion-item>
+          <ion-item [hidden]="this.tipoPessoa != 2">
+            <ion-label floating>CNPJ</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Email</ion-label>
+            <ion-input formControlName="Email" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label floating>Telefone</ion-label>
+            <ion-input formControlName="Telefone" type="text"></ion-input>
+          </ion-item>
+
+        </ion-list>
+
+        <ion-grid [hidden]="this.DesctipoPessoa == ''">
+
+          <ion-row>
+            <ion-col col-6>
+              <button ion-button round (click)="voltarSlider()">Voltar</button>
+            </ion-col>
+            <ion-col col-6>
+              <button ion-button round type="submit" [disabled]="userForm.invalid">Proximo</button>
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
+      </form> -->
+
+      <form [formGroup]="PessoaForm" (ngSubmit)="cadastrarPessoa()" novalidate>
+        <ion-list>
+          <ion-item class="item" padding [class.invalid]="(!PessoaForm.controls.nome.valid) && isNome">
+            <ion-label color="primary" stacked>Nome*</ion-label>
+            <ion-input type="text" (keyup)="validate('nome')" formControlName="nome"
+              placeholder="Digite seu Nome completo"></ion-input>
+          </ion-item>
+          <!-- <ion-item *ngIf="PessoaForm.get('nome').errors && PessoaForm.get('nome').dirty"> -->
+            <p style="color: red;" ion-text *ngIf="PessoaForm.get('nome').hasError('required')">Digite seu nome completo
+            </p>
+          <!-- </ion-item> -->
+
+          <ion-item class="item" padding [class.invalid]="(!PessoaForm.controls.email.valid) && isEmail">
+            <ion-label color="primary" stacked>Email</ion-label>
+            <ion-input type="email" (keyup)="validate('email')" formControlName="email" placeholder="Digite seu Email">
+            </ion-input>
+          </ion-item>
+          <ion-item *ngIf="PessoaForm.get('email').errors && PessoaForm.get('email').dirty">
+            <p style="color: red" ion-text *ngIf="PessoaForm.get('email').hasError('required')">Digite seu Email</p>
+            <p style="color: red" ion-text *ngIf="PessoaForm.get('email').hasError('email')">Digite um Email válido</p>
+          </ion-item>
+
+          <ion-item class="item" padding [class.invalid]="(!PessoaForm.controls.cpf.valid) && isCpf">
+            <ion-label color="primary" stacked>CPF</ion-label>
+            <ion-input type="number" (keyup)="validate('cpf')" formControlName="cpf"
+              placeholder="Digite seu cpf"></ion-input>
+          </ion-item>
+          <p *ngIf="PessoaForm.get('cpf').errors && PessoaForm.get('cpf').dirty">
+            <span style="color: red" ion-text *ngIf="PessoaForm.get('cpf').hasError('required')">Digite seu
+              cpf. </span>
+            <span style="color: red" ion-text *ngIf="PessoaForm.get('cpf').hasError('maxlength')">Máximo de 11
+              caracteres</span>
+          </p>
+
+          <ion-item class="item" padding [class.invalid]="(!PessoaForm.controls.telefone.valid) && isTelefone">
+            <ion-label color="primary" stacked>Telefone</ion-label>
+            <ion-input type="text" (keyup)="validate('telefone')" formControlName="telefone"
+              placeholder="Digite seu telefone"></ion-input>
+          </ion-item>
+          <p *ngIf="PessoaForm.get('telefone').errors && PessoaForm.get('telefone').dirty">
+            <span style="color: red" ion-text *ngIf="PessoaForm.get('telefone').hasError('required')">Digite seu
+              telefone. </span>
+            <span style="color: red" ion-text *ngIf="PessoaForm.get('telefone').hasError('maxlength')">Máximo de 10
+              caracteres</span>
+          </p>
+
+          <ion-item class="item" padding [class.invalid]="(!PessoaForm.controls.senha.valid) && isSenha">
+            <ion-label color="primary" stacked>Senha</ion-label>
+            <ion-input type="text" (keyup)="validate('senha')" formControlName="senha"
+              placeholder="senha (Minimo 6 caracteres)"></ion-input>
+          </ion-item>
+          <p *ngIf="PessoaForm.get('senha').errors && PessoaForm.get('senha').dirty">
+            <span style="color: red" ion-text *ngIf="PessoaForm.get('senha').hasError('required')">Digite sua senha!
+            </span>
+            <span style="color: red" ion-text *ngIf="PessoaForm.get('senha').hasError('maxlength')">Minimo 6
+              caracteres</span>
+          </p>
+
+        </ion-list>
+        <ion-grid [hidden]="this.DesctipoPessoa == ''">
+
+          <ion-row>
+            <ion-col col-6>
+              <button ion-button round (click)="voltarSlider()">Voltar</button>
+            </ion-col>
+            <ion-col col-6>
+              <button ion-button round type="submit" [disabled]="PessoaForm.invalid">Proximo</button>
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
+        <!-- <button ion-button block round style="margin-top: 15px;" type="submit" [disabled]="PessoaForm.invalid">
+            SUBMIT
+        </button> -->
+      </form>
+    </ion-slide>
+
+    <ion-slide>
+      <h2>Endereço</h2>
+      <ion-list>
+
+        <ion-item>
+          <ion-label>Estado</ion-label>
+          <ion-select [(ngModel)]="EstadoSelecionado" multiple="false">
+            <ion-option *ngFor="let item of this.Estados" value="{{item.idEstado}}"
+              (ionSelect)="selecionarEstado(item)">
+              {{item.nome}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Cidade</ion-label>
+          <ion-select [(ngModel)]="MunicipioSelecionado" multiple="false">
+            <ion-option *ngFor="let item of this.Municipios" value="{{item.idMunicipio}}"
+              (ionSelect)="selecionarMunicipio(item)">
+              {{item.nome}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
+        <br>
+        <div class="autocomplete">
+          <ion-searchbar (ionInput)="getItems($event)" placeholder="Endereço"></ion-searchbar>
+
+          <ion-list>
+            <ion-item *ngFor="let item of itens|slice:0:5">
+              {{ item.logradouro }}
+            </ion-item>
+          </ion-list>
+        </div>
+
+
+        <!-- <button (click)="buscarLogradouros()">buscar</button> -->
+
+        <ion-item>
+          <ion-label floating>Numero</ion-label>
+          <ion-input type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Complemento</ion-label>
+          <ion-input type="text"></ion-input>
+        </ion-item>
+
+      </ion-list>
+
+      <ion-grid [hidden]="this.DesctipoPessoa == ''">
+        <ion-row>
+          <ion-col col-6>
+            <button ion-button round (click)="voltarSlider()">Voltar</button>
+          </ion-col>
+          <ion-col col-6>
+            <button ion-button round (click)="proximoSlider()">Proximo</button>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+    </ion-slide>
+
+    <ion-slide>
+      <h2>Sua localização é essa?</h2>
+      <div id="map2" data-tap-disabled="true" style="width:auto; height:400px;"></div>
+
+      <ion-grid [hidden]="this.DesctipoPessoa == ''">
+        <ion-row>
+          <ion-col col-6>
+            <button ion-button round (click)="voltarSlider()">Voltar</button>
+          </ion-col>
+          <ion-col col-6>
+            <button ion-button round (click)="proximoSlider()">Proximo</button>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+    </ion-slide>
+
+  </ion-slides>
+</ion-content>
