@@ -62,7 +62,14 @@ export class ListPage {
 
 
   carregar(){
-    this.geolocation.getCurrentPosition().then((resp) => {
+
+    var options = {
+      timeout: 2000,
+      enableHighAccuracy:true,
+      maximumAge: 3600
+    };
+
+    this.geolocation.getCurrentPosition(options).then((resp) => {
       alert(resp.coords.latitude)
       this.latitude = resp.coords.latitude;
       // resp.coords.latitude

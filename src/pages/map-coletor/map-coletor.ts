@@ -4,7 +4,7 @@ import { ApiEnderecoProvider } from './../../providers/api-endereco/api-endereco
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Alert, ModalController, ModalOptions, Searchbar } from 'ionic-angular';
 import leaflet from 'leaflet';
-import { Geolocation } from '@ionic-native/geolocation';
+import { Geolocation } from '@ionic-native/geolocation/';
 import { StorageProvider } from '../../providers/storage/storage';
 import { ModalPage } from '../modal/modal';
 
@@ -53,18 +53,18 @@ export class MapColetorPage {
     console.log('ionViewDidLoad MapColetorPage');
 
     // parte de codigo para iniciar o map 
-    // this.map = leaflet.map("map").fitWorld();
-    // this.map.zoomControl.setPosition('bottomright');
-    // leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //   attributions: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    //   maxZoom: 20,
-    //   // zoomControl: true
-    // })
-    //   .addTo(this.map);
-    // this.map.locate({
-    //   setView: true,
-    //   maxZoom: 15
-    // })
+    this.map = leaflet.map("map").fitWorld();
+    this.map.zoomControl.setPosition('bottomright');
+    leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attributions: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      maxZoom: 20,
+      // zoomControl: true
+    })
+      .addTo(this.map);
+    this.map.locate({
+      setView: true,
+      maxZoom: 15
+    })
     // fim parte de codigo para iniciar o map 
 
     // this.loadmap();
@@ -76,27 +76,33 @@ export class MapColetorPage {
 
 
   carregar(){
-    this.geolocation.getCurrentPosition().then(pos => {
+    var options = {
+      timeout: 2000,
+      enableHighAccuracy:true,
+      maximumAge: 3600
+    };
+
+    this.geolocation.getCurrentPosition(options).then(pos => {
       console.log('lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
       this.posLat = pos.coords.latitude;
       this.posLon = pos.coords.longitude;
       alert('this.posLat : ' + this.posLat);
       alert('this.posLon: ' + this.posLon);
-      // this.mostrarLocalizacaoAtual();
+        this.mostrarLocalizacaoAtual();
 
-      // this.storage.getUserStorage()
-      //   .then(
-      //     (data: any) => {
-      //       console.log(data);
+      this.storage.getUserStorage()
+        .then(
+          (data: any) => {
+            console.log(data);
 
-      //       if (data == null) {
-      //         this.tipoPessoa = 2;
-      //         this.getEstadoCoordenadas(this.tipoPessoa, this.posLat, this.posLon);
-      //       } else {
-      //         this.tipoPessoa = 2;
-      //         this.getEstadoCoordenadas(this.tipoPessoa, this.posLat, this.posLon);
-      //       }
-      //     });
+            if (data == null) {
+              this.tipoPessoa = 2;
+              this.getEstadoCoordenadas(this.tipoPessoa, this.posLat, this.posLon);
+            } else {
+              this.tipoPessoa = 2;
+              this.getEstadoCoordenadas(this.tipoPessoa, this.posLat, this.posLon);
+            }
+          });
 
     },
       err => {
@@ -168,6 +174,7 @@ export class MapColetorPage {
     });
     var pulsingIcon = leaflet.icon.pulse({iconSize:[30,30],color:'green', fillColor:'green'});
 
+    // let marker: any = leaflet.marker(["37.4220", "-122.0840"],
     let marker: any = leaflet.marker([this.posLat, this.posLon],
       //  {icon: pulsingIcon}
     )

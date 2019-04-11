@@ -77,7 +77,7 @@ export class NewItemPage {
       this.imgs.push(file)
       formData.append(file.name, file);
     }
-    const uploadReq = new HttpRequest('POST', `http://192.168.0.103:45455/api/upload`, formData, {
+    const uploadReq = new HttpRequest('POST', `http://192.168.0.101:45455/api/upload`, formData, {
       reportProgress: true,
     });
 
@@ -112,7 +112,7 @@ export class NewItemPage {
     // for (let file of files)
     //   formData.append(file.name, file);
 
-    // const uploadReq = new HttpRequest('POST', ` http://192.168.0.103:45455/api/upload`, formData, {
+    // const uploadReq = new HttpRequest('POST', ` http://192.168.0.101:45455/api/upload`, formData, {
     //   reportProgress: true,
     // });
 
