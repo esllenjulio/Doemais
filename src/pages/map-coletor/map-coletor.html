@@ -49,14 +49,17 @@
 
 
     <div class='btnPesq'>
-      <button ion-fab mini clear class='animated pulse infinite ' (click)="showPesquisa()">
+      <button ion-fab mini  [hidden]="!showBtnPesquisar" clear class='animated pulse infinite ' (click)="showPesquisa()">
         <ion-icon name="{{this.iconBusca}}"></ion-icon>
       </button>
     </div>
 
     <div class='btnLocalizacao'>
-        <button ion-fab mini  class='animated pulse infinite ' (click)="minhaLocalizacao()">
+        <button ion-fab mini [hidden]="!showBtnMyLocation" class='animated pulse infinite ' (click)="minhaLocalizacao()">
           <ion-icon name="locate"></ion-icon>
+        </button>
+        <button ion-fab mini [hidden]="!showReload" class='animated pulse infinite' color="danger" (click)="reloadGeolocation()">
+          <ion-icon ios="ios-help-circle" md="md-help-circle"></ion-icon>
         </button>
       </div>
       

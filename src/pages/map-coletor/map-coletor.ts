@@ -33,6 +33,11 @@ export class MapColetorPage {
   listasPontos: any = [];
   listasPontosEncontrados: any = [];
 
+  showBtnMyLocation: boolean = false;
+  showBtnPesquisar: boolean = false;
+  showReload: boolean = false;
+
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public storage: StorageProvider,
@@ -41,18 +46,13 @@ export class MapColetorPage {
     private apiData: ApiDataProvider,
     private alert: AlertProvider,
     private modal: ModalController) {
-      this.carregar();
+    this.carregar();
   }
-
-
 
 
   // CRIA O MAPA PRINCIPAL E PEGA A POSIÇAO ATUAL E MANDA CRIA OS PONTOS NO MAPA
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MapColetorPage');
-
-    // parte de codigo para iniciar o map 
     this.map = leaflet.map("map").fitWorld();
     this.map.zoomControl.setPosition('bottomright');
     leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -65,76 +65,88 @@ export class MapColetorPage {
       setView: true,
       maxZoom: 15
     })
-    // fim parte de codigo para iniciar o map 
-
-    // this.loadmap();
-
-   
   }
 
 
 
+  // METODO: Responsavél por pegar a localização atual pelo gps do dispositivo
+  carregar() {
+    this.alert.showLoading("Buscando sua localização atual...");
 
-  carregar(){
     var options = {
       timeout: 2000,
-      enableHighAccuracy:true,
+      enableHighAccuracy: true,
       maximumAge: 3600
     };
 
-    this.geolocation.getCurrentPosition(options).then(pos => {
-      console.log('lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
-      this.posLat = pos.coords.latitude;
-      this.posLon = pos.coords.longitude;
-      alert('this.posLat : ' + this.posLat);
-      alert('this.posLon: ' + this.posLon);
+    this.geolocation.getCurrentPosition(options).then(
+      pos => {
+        this.showBtnPesquisar = true;
+        this.showBtnMyLocation = true;
+        console.log('lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
+        this.posLat = pos.coords.latitude;
+        this.posLon = pos.coords.longitude;
+        // alert('this.posLat : ' + this.posLat);
+        // alert('this.posLon: ' + this.posLon);
         this.mostrarLocalizacaoAtual();
+        this.alert.hideLoading();
 
-      this.storage.getUserStorage()
-        .then(
-          (data: any) => {
-            console.log(data);
-
-            if (data == null) {
-              this.tipoPessoa = 2;
-              this.getEstadoCoordenadas(this.tipoPessoa, this.posLat, this.posLon);
-            } else {
-              this.tipoPessoa = 2;
-              this.getEstadoCoordenadas(this.tipoPessoa, this.posLat, this.posLon);
-            }
-          });
-
-    },
+        this.storage.getUserStorage()
+          .then(
+            (data: any) => {
+              console.log(data);
+              if (data == null) {
+                this.tipoPessoa = 2;
+                this.getEstadoCoordenadas(this.tipoPessoa, this.posLat, this.posLon);
+              } else {
+                this.tipoPessoa = 2;
+                this.getEstadoCoordenadas(this.tipoPessoa, this.posLat, this.posLon);
+              }
+            });
+      },
       err => {
-        alert('Error message : ' + err.message);
+        this.alert.showAlert();
+        this.alert.hideLoading();
+        this.showBtnPesquisar = false;
+        this.showBtnMyLocation = false;
+        this.showReload = true;
+        // alert('Error message : ' + err.message);
       }
-
-    ).catch( 
-      (error)=>{alert(error)}
+    ).catch(
+      (error) => {
+        // alert(error)
+        this.alert.showAlert();
+        this.alert.hideLoading();
+        this.showBtnPesquisar = false;
+        this.showBtnMyLocation = false;
+        this.showReload = true;
+      }
     );
   }
 
   // BUSCA NO PROVIDER AS COORDENADAS E ACORDO COM O ESTADO DO DOADOR CADASTRADO
   getEstadoCoordenadas(tipo, lat, lon) {
+    this.alert.showLoading("Buscando locais em cidades de todo estado...");
+
     this.apiEnd.getEstadoCoordenadas(lat, lon).then(
       (data: any) => {
-        // console.log(data.features[0].properties.state)
         let estado = data.features[0].properties.state;
         this.apiData.getPessoaTipoEstado(tipo, estado).then(
           (d) => {
             this.listasPontos = [];
             this.listasPontos = d
             this.loadmap(d)
-            console.log(d);
+            this.alert.hideLoading();
           },
           (error) => {
-            console.log(error);
-            alert("Falha ao buscar pontos de Coletas");
+            this.alert.showAlert("Desculpe...", "Ocorreu uma Falha ao buscar alguns pontos!");
+            this.alert.hideLoading();
           }
         );
       },
       (error) => {
-        alert("Falha ao buscar pontos de Coletas por estado");
+        this.alert.showAlert("Desculpe...", "Ocorreu uma Falha ao buscar alguns pontos!");
+        this.alert.hideLoading();
       }
     )
   }
@@ -143,11 +155,11 @@ export class MapColetorPage {
   //  ADICIONA TODOS OS PONTOS/MARKER NO MAPA
   loadmap(pontos: any) {
     let markerGroup = leaflet.featureGroup();
-    var pulsingIcon = leaflet.icon.pulse({iconSize:[20,20],color:'red'});
+    var pulsingIcon = leaflet.icon.pulse({ iconSize: [20, 20], color: 'red' });
     for (let i in pontos) {
-      let marker: any = leaflet.marker([pontos[i].endereco.latitude, pontos[i].endereco.longitude], 
-        {icon: pulsingIcon}
-        ).on('click', () => {
+      let marker: any = leaflet.marker([pontos[i].endereco.latitude, pontos[i].endereco.longitude],
+        { icon: pulsingIcon }
+      ).on('click', () => {
         // Aqui chama o componente modal e manda as informaçaoes ponto para ser exibido na tela.
         const mod = this.modal.create(ModalPage, { dados: pontos[i] });
         mod.present();
@@ -163,6 +175,7 @@ export class MapColetorPage {
 
   //  CRIAR MAPA E ADICIONAR LOCALIÇÃO ATUAL - CRIA PONTO PERSONALIZADO
   mostrarLocalizacaoAtual() {
+
     var myIcon = leaflet.icon({
       iconUrl: 'https://leafletjs.com/docs/images/github-round.png',
       iconSize: [28, 65],
@@ -172,9 +185,8 @@ export class MapColetorPage {
       // shadowSize: [68, 95],
       // shadowAnchor: [22, 94]
     });
-    var pulsingIcon = leaflet.icon.pulse({iconSize:[30,30],color:'green', fillColor:'green'});
+    var pulsingIcon = leaflet.icon.pulse({ iconSize: [30, 30], color: 'green', fillColor: 'green' });
 
-    // let marker: any = leaflet.marker(["37.4220", "-122.0840"],
     let marker: any = leaflet.marker([this.posLat, this.posLon],
       //  {icon: pulsingIcon}
     )
@@ -192,6 +204,22 @@ export class MapColetorPage {
 
   }
 
+  reloadGeolocation() {
+    // this.map = leaflet.map("map").fitWorld();
+    this.map.zoomControl.setPosition('bottomright');
+    leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attributions: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      maxZoom: 20,
+      // zoomControl: true
+    })
+      .addTo(this.map);
+    this.map.locate({
+      setView: true,
+      maxZoom: 15
+    })
+    this.showReload = false;
+    this.carregar();
+  }
 
 
   // CONFIGURAÇOES DAS PESQUISAS NA TELA DO MAPA
@@ -233,15 +261,15 @@ export class MapColetorPage {
   }
 
 
-  minhaLocalizacao(){
+  minhaLocalizacao() {
     this.map.panTo(new leaflet.LatLng(this.posLat, this.posLon));
   }
 
   ionViewCanLeave() {
     // this.map.off();
-    // this.map.remove();
-    // document.getElementById("map").outerHTML = "";
+    this.map.remove();
     this.map.invalidateSize();
+    // document.getElementById("map").outerHTML = "";
     console.log(this.map)
   }
 
