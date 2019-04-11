@@ -124,6 +124,7 @@ export class MapColetorPage {
     );
   }
 
+  
   // BUSCA NO PROVIDER AS COORDENADAS E ACORDO COM O ESTADO DO DOADOR CADASTRADO
   getEstadoCoordenadas(tipo, lat, lon) {
     this.alert.showLoading("Buscando locais em cidades de todo estado...");
