@@ -14,8 +14,8 @@ export class ApiDataProvider {
     console.log('Hello ApiDataProvider Provider');
   }
 
-  private host: string = "http://192.168.0.100";
-  private port: string = ":45455/";
+  public host: string = "http://192.168.0.100";
+  public port: string = ":45455/";
 
 
 
@@ -118,19 +118,39 @@ export class ApiDataProvider {
 
 
  // Buscar produtos por pessoa = PessoaId
- getDoacoes(id) {
-  let dir: string = "api/doacao/pessoa/";
-  return new Promise((resolve, reject) => {
-    this.http.get(this.host + this.port + dir + id)
-      .subscribe(
-        (data) => {
-          resolve(data);
-        },
-        (error) => {
-          reject(error);
+ getDoacoes(tipoPessoaId, pessoaId) {
+  let dirDoador: string = "api/doacao/doador/";
+  let dirColetor: string = "api/doacao/coletor/";
 
-        });
-  });
+
+
+  if(tipoPessoaId == 1){
+    return new Promise((resolve, reject) => {
+      this.http.get(this.host + this.port + dirDoador + pessoaId)
+        .subscribe(
+          (data) => {
+            resolve(data);
+          },  
+          (error) => {
+            reject(error);
+  
+          });
+    });
+  }
+
+  if(tipoPessoaId == 2){
+    return new Promise((resolve, reject) => {
+      this.http.get(this.host + this.port + dirColetor + pessoaId)
+        .subscribe(
+          (data) => {
+            resolve(data);
+          },
+          (error) => {
+            reject(error);
+  
+          });
+    });
+  }
 }
 
 

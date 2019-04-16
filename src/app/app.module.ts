@@ -27,6 +27,7 @@ import { ItensDoacaoPage } from '../pages/itens-doacao/itens-doacao';
 import { NewItemPage } from '../pages/new-item/new-item';
 import { MapaProvider } from '../providers/mapa/mapa';
 import { MapaPage } from '../pages/mapa/mapa';
+import { DoacaoProvider } from '../providers/doacao/doacao';
 
 
 @NgModule({
@@ -80,6 +81,7 @@ import { MapaPage } from '../pages/mapa/mapa';
     AlertProvider,
     StorageProvider,
     MapaProvider,
+    DoacaoProvider,
 
   ]
 })

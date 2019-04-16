@@ -2,6 +2,7 @@ import { ApiDataProvider } from './../../providers/api-data/api-data';
 import { StorageProvider } from './../../providers/storage/storage';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { DoacaoProvider } from '../../providers/doacao/doacao';
 
 /**
  * Generated class for the DoacoesPage page.
@@ -19,47 +20,23 @@ export class DoacoesPage {
 
   listDoacoes: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: StorageProvider, private ApiData: ApiDataProvider) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private storage: StorageProvider, 
+    private doacaoProvider: DoacaoProvider, 
+    private ApiData: ApiDataProvider) {
     
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DoacoesPage');
-    this.getProdutos();
+    this.doacaoProvider.getDoacoes();
   }
 
 
 
 
-  getProdutos() {
 
-    this.storage.getUserStorage()
-      .then(
-        (data: any) => {
-          console.log(data);
-
-          if (data == null) {
-
-          } else {
-            this.getDoacoes(data.pessoaId);
-          }
-        });
-  }
-
-
-  getDoacoes(idPessoa) {
-    this.listDoacoes = [];
-    this.ApiData.getDoacoes(idPessoa).then(
-
-      (data) => {
-        console.log(data)
-        this.listDoacoes = data;
-      },
-      (error) => {
-        console.log(error)
-      }
-
-    )
-  }
 
 }
