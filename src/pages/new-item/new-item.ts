@@ -4,6 +4,7 @@ import { StorageProvider } from './../../providers/storage/storage';
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Navbar, Events } from 'ionic-angular';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
+import { ApiDataProvider } from '../../providers/api-data/api-data';
 /**
  * Generated class for the NewItemPage page.
  *
@@ -22,7 +23,9 @@ export class NewItemPage {
   public message: string;
   public user: any;
   public imgs: any = [];
-  public addItem:boolean = false;
+  public imgsInLocal: any = [];
+  public imgsInServer: any = [];
+  public addItem: boolean = false;
 
 
   @ViewChild(Navbar) navBar: Navbar;
@@ -32,6 +35,7 @@ export class NewItemPage {
     private alert: AlertProvider,
     private http: HttpClient,
     private events: Events,
+    private apiData: ApiDataProvider,
     private storage: StorageProvider) {
 
     this.storage.getUserStorage()
@@ -44,12 +48,13 @@ export class NewItemPage {
             console.log(this.user)
           }
         });
+        this.imgsInLocal = [];
   }
 
 
   produto: any = {
-    nome: "Produto jullio",
-    marca: " Marca sony",
+    nome: "Camisa",
+    marca: "Sem descição",
     pessoaId: null,
     DoacaoId: null
   }
@@ -72,12 +77,23 @@ export class NewItemPage {
     let detailsProduto = JSON.stringify(this.produto);
     formData.append('produto', detailsProduto);
 
-    for (let file of files) {
+    for (let file of this.imgsInLocal) {
       this.imgs = [];
       this.imgs.push(file)
       formData.append(file.name, file);
+      console.log(file)
+      console.log(formData)
+      console.log("eu")
     }
-    const uploadReq = new HttpRequest('POST', `http://192.168.0.101:45455/api/upload`, formData, {
+
+    
+    // for (let file of files) {
+    //   this.imgs = [];
+    //   this.imgs.push(file)
+    //   formData.append(file.name, file);
+    //   console.log(formData)
+    // }
+    const uploadReq = new HttpRequest('POST', this.apiData.host + this.apiData.port + `/api/upload`, formData, {
       reportProgress: true,
     });
 
@@ -85,6 +101,8 @@ export class NewItemPage {
       if (event.type === HttpEventType.UploadProgress) {
         console.log(event)
         this.progress = Math.round(100 * event.loaded / event.total);
+        this.imgsInServer = this.imgs;
+        console.log(this.imgsInServer)
         this.addItem = true;
       } else if (event.type === HttpEventType.Response)
         this.message = event.body.toString();
@@ -92,9 +110,24 @@ export class NewItemPage {
   }
 
   onUploadChange(evt: any) {
-    const file = evt.target.files[0];
-    console.log(file.name)
-    this.imgs.push(file.name)
+    // const file = evt.target.files[0];
+    // console.log(file.name)
+    // this.imgs.push(file.name)
+    // // this.imgsInServer.
+    
+    for(let i=0;i<evt.target.files.length;i++){
+      this.imgsInLocal.push(evt.target.files[i])
+      console.log(evt.target.files[i])
+    }
+    // for(let i in evt.target.files){
+    //   console.log(i)
+    //   let img = evt.target.files[i];
+    //   this.imgsInServer.push(img.name)
+    // }
+
+    console.log(this.imgsInServer)
+    // imgsInLocal
+    
   }
 
 

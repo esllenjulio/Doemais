@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>newItem</ion-title>
+    <ion-title>Adicionar Produto</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -44,10 +44,18 @@
     </button>
   </ion-list>
 
-  <div *ngFor="let img of imgs">
+  <div *ngFor="let img of imgsInLocal">
 
-    {{img}}
-    <img src="http://localhost:51329/upload/{{img}}" alt="">
+    <!-- {{img.nome}} -->
+    
+    <div style="width: 48%; height: 200px; display: inline-block; float: left;  padding: 10px; box-shadow: 5px 10px 8px #888888; margin: 1% 1%;">
+        <button ion-fab mini  right color="danger" style="float:right">
+            <ion-icon  name="close"></ion-icon>
+        </button>
+      
+        <img src="{{ this.apiData.host}}{{ this.apiData.port }}upload/{{img.name}}" width="130" height="130" alt="">
+
+    </div>
   </div>
 
 </ion-content>
