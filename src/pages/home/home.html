@@ -19,10 +19,10 @@
   <div id="map" style="width:100%; height:100%;"></div> -->
 
   <ion-tabs>
-    <ion-tab [show]="showTabColetor" tabTitle="Coletores" tabIcon="compass" [root]="tabColetor" tabBadge="14" tabBadgeStyle="danger"></ion-tab>
-    <ion-tab [show]="showTabDoador" tabTitle="Doadores" tabIcon="contact" [root]="tabDoador" tabBadge="3" tabBadgeStyle="danger" ></ion-tab>
-    <ion-tab tabIcon="analytics" [root]="tabLogin" tabBadgeStyle="danger"></ion-tab>
-    <ion-tab tabIcon="settings" [root]="tabLogin"  tabBadgeStyle="danger"></ion-tab>
+    <ion-tab  tabTitle="Mapa" tabIcon="compass" [root]="tabColetor" tabBadge="14" tabBadgeStyle="danger"></ion-tab>
+    <!-- <ion-tab [show]="showTabDoador" tabTitle="Doadores" tabIcon="contact" [root]="tabDoador" tabBadge="3" tabBadgeStyle="danger" ></ion-tab> -->
+    <ion-tab tabIcon="analytics" tabTitle="Doações" [root]="tabDoacoes" tabBadgeStyle="danger"></ion-tab>
+    <ion-tab tabIcon="shirt" tabTitle="Itens" [root]="tabItens"  tabBadgeStyle="danger"></ion-tab>
     <!-- <ion-tab tabIcon="musical-notes" [root]="tabThree"></ion-tab> -->
   </ion-tabs>
 

@@ -14,7 +14,7 @@ export class ApiDataProvider {
     console.log('Hello ApiDataProvider Provider');
   }
 
-  private host: string = "http://192.168.0.101";
+  private host: string = "http://192.168.0.100";
   private port: string = ":45455/";
 
 

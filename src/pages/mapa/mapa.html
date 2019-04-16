@@ -1,0 +1,79 @@
+
+<ion-content>
+  <!-- <div >
+     
+     <ion-fab   right edge style=" position: absolute; z-index:999; float: right; margin-top: 20%">
+          <button ion-fab mini>
+            <ion-icon name="add"></ion-icon>
+          </button>
+          
+        </ion-fab> 
+
+  </div>-->
+  <div id="map" #map style="width:100%; height:100%;">
+      
+      <div class="inputPesq" *ngIf="this.mapaProvider.pesquisar">
+
+       <ion-searchbar class='animated' animated #searchbar autofocus
+          [ngClass]="{'bounceInRight': this.mapaProvider.pesquisar, 'fadeOutRightBig': !this.mapaProvider.pesquisar }"
+          placeholder="Pesquisar Pontos" (ionInput)="this.mapaProvider.getItems($event)" (ionClear)="this.mapaProvider.cleared()">
+        </ion-searchbar>
+        <div class="listItems animated "
+          [ngClass]="{'bounceInRight': this.mapaProvider.pesquisar, 'fadeOutRightBig': !this.mapaProvider.pesquisar }">
+          <ion-list class='animated' [ngClass]="{'bounceInRight': this.mapaProvider.pesquisar, 'fadeOutRightBig': !this.mapaProvider.pesquisar }">
+            <ion-item *ngFor="let item of this.mapaProvider.listasPontosEncontrados" (click)="this.mapaProvider.buscarPontoMapa(item)">
+              <ion-avatar item-start>
+                <img src="assets/imgs/{{ item.imagem }}">
+              </ion-avatar>
+              <h2> {{ item.nome }}</h2>
+              <p>{{ item.endereco.logradouro }} • {{ item.endereco.bairro.nome }}</p>
+              <button ion-button clear item-end>
+                <ion-icon ios="ios-pin" md="md-pin"></ion-icon>
+              </button>
+            </ion-item>
+          </ion-list>
+        </div>
+        <label padding *ngIf="this.mapaProvider.listasPontosEncontrados.length!=0">Encontrados: <b>{{ this.mapaProvider.listasPontosEncontrados.length }}</b></label>
+        
+      </div>
+
+
+    <div class='btnPesq'>
+      <button ion-fab mini  [hidden]="!this.mapaProvider.showBtnPesquisar" clear class='animated pulse infinite ' (click)="this.mapaProvider.showPesquisa()">
+        <ion-icon name="{{this.mapaProvider.iconBusca}}"></ion-icon>
+      </button>
+    </div>
+
+   
+        <!-- <ion-fab left top class="fab">
+            <button ion-fab color="secondary"><ion-icon name="arrow-dropright"></ion-icon></button>
+            <ion-fab-list side="left">
+              <button ion-fab><ion-icon name="logo-facebook"></ion-icon></button>
+              <button ion-fab><ion-icon name="logo-twitter"></ion-icon></button>
+              <button ion-fab><ion-icon name="logo-vimeo"></ion-icon></button>
+              <button ion-fab><ion-icon name="logo-googleplus"></ion-icon></button>
+            </ion-fab-list>
+          </ion-fab>
+     -->
+
+    <div class='btnLocalizacao'>
+      <button ion-fab mini [hidden]="!this.mapaProvider.showBtnMyLocation" class='animated pulse infinite ' (click)="this.mapaProvider.minhaLocalizacao()">
+        <ion-icon name="locate"></ion-icon>
+      </button>
+      <button ion-fab mini [hidden]="!this.mapaProvider.showReload" class='animated pulse infinite' color="danger" (click)="this.mapaProvider.reloadGeolocation()">
+        <ion-icon ios="ios-help-circle" md="md-help-circle"></ion-icon>
+      </button>
+    </div>
+    
+  </div>
+     
+  <ion-fab right bottom>
+      <button ion-fab mini color="light"><ion-icon name="arrow-dropleft"></ion-icon></button>
+      <ion-fab-list side="left">
+        <button ion-fab (click)="ShowPontosColetas()" [color]="this.mapaProvider.selectedColetas ? 'primary' : 'light'"><ion-icon name="flag"></ion-icon></button>
+        <button ion-fab (click)="ShowPontosDoadores()"  [color]="this.mapaProvider.selectedDoadores ? 'primary' : 'light'"><ion-icon name="contacts"></ion-icon></button>
+      </ion-fab-list>
+    </ion-fab>
+
+    
+</ion-content>

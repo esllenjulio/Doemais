@@ -25,6 +25,8 @@ import { ModalPage } from '../pages/modal/modal';
 import { DoacoesPage } from '../pages/doacoes/doacoes';
 import { ItensDoacaoPage } from '../pages/itens-doacao/itens-doacao';
 import { NewItemPage } from '../pages/new-item/new-item';
+import { MapaProvider } from '../providers/mapa/mapa';
+import { MapaPage } from '../pages/mapa/mapa';
 
 
 @NgModule({
@@ -36,6 +38,7 @@ import { NewItemPage } from '../pages/new-item/new-item';
     LoginPage,
     MapColetorPage,
     MapDoadorPage,
+    MapaPage,
     ModalPage,
     DoacoesPage,
     ItensDoacaoPage,
@@ -62,6 +65,7 @@ import { NewItemPage } from '../pages/new-item/new-item';
     MapColetorPage,
     MapDoadorPage,
     ModalPage,
+    MapaPage,
     DoacoesPage,
     ItensDoacaoPage,
     NewItemPage
@@ -75,6 +79,7 @@ import { NewItemPage } from '../pages/new-item/new-item';
     ApiEnderecoProvider,
     AlertProvider,
     StorageProvider,
+    MapaProvider,
 
   ]
 })

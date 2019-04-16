@@ -5,9 +5,9 @@ import { NavController } from 'ionic-angular';
 // import leaflet from 'leaflet';
 import { StorageProvider } from '../../providers/storage/storage';
 import { AlertProvider } from '../../providers/alert/alert';
-import { MapDoadorPage } from '../map-doador/map-doador';
-import { MapColetorPage } from '../map-coletor/map-coletor';
+import { MapaPage } from '../mapa/mapa';
 import { DoacoesPage } from '../doacoes/doacoes';
+import { ItensDoacaoPage } from '../itens-doacao/itens-doacao';
 
 
 @Component({
@@ -23,6 +23,7 @@ export class HomePage {
   tabLogin: any;
   tabColetor: any;
   tabDoacoes: any;
+  tabItens: any;
   rootPage = "";
 
 
@@ -35,9 +36,10 @@ export class HomePage {
     public storage: StorageProvider,
     public alertProvider: AlertProvider
   ) {
-    this.tabDoador = MapDoadorPage;
-    this.tabColetor = MapColetorPage;
-    this.tabLogin = LoginPage;
+    this.tabColetor = MapaPage;
+    this.tabDoacoes = DoacoesPage;
+    this.tabItens = ItensDoacaoPage;
+  
 
   }
 
@@ -93,11 +95,15 @@ export class HomePage {
       .then(
         (data: any) => {
           console.log(data);
+
           if (data == null) {
             let confirm = this.alertProvider.showConfirmLogin();
             confirm.onDidDismiss((data) => {
+              console.log(data)
               if (data) {
-                this.navCtrl.setRoot(LoginPage);
+                this.navCtrl.push(LoginPage);
+              }else{
+                this.showTabColetor = true;
               }
             });
           } else {
