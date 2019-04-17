@@ -86,6 +86,7 @@
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
     </plugin>
     <plugin name="com-badrit-base64" spec="0.2.0" />
-    <allow-navigation href="http://192.168.0.100:45455/api/*" />
+    <allow-navigation href="http://localhost:8100" />
+    <access origin="*" subdomains="true" />
     <engine name="android" spec="7.1.4" />
 </widget>
